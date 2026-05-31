@@ -1,0 +1,10 @@
+{
+  "id": "obsidian-lan-sync",
+  "name": "LAN Sync",
+  "version": "1.0.0",
+  "minAppVersion": "1.0.0",
+  "description": "Sync your vault with other users on the same LAN",
+  "author": "You",
+  "authorUrl": "",
+  "isDesktopOnly": true
+}

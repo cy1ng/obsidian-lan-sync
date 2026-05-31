@@ -56,8 +56,9 @@ export class SyncServer {
   stop(): Promise<void> {
     return new Promise(resolve => {
       if (!this.server) { resolve(); return; }
-      this.server.close(() => resolve());
+      const s = this.server;
       this.server = null;
+      s.close(() => resolve());
     });
   }
 
@@ -94,6 +95,7 @@ export class SyncServer {
     if (!filePath) { res.writeHead(400); res.end(); return; }
     const chunks: Buffer[] = [];
     req.on('data', (chunk: Buffer) => chunks.push(chunk));
+    req.on('error', () => { res.writeHead(500); res.end(); });
     req.on('end', async () => {
       try {
         const buf = Buffer.concat(chunks);

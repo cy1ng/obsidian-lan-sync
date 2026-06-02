@@ -1,0 +1,256 @@
+/* ===== 局域网同步面板样式 ===== */
+
+.lan-sync-view .lan-sync-root {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 2px;
+}
+
+/* 标题栏 */
+.lan-sync-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 4px 8px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.lan-sync-title-icon {
+  display: inline-flex;
+  color: var(--interactive-accent);
+}
+
+.lan-sync-title-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.lan-sync-title {
+  font-size: var(--font-ui-medium);
+  font-weight: 600;
+  color: var(--text-normal);
+}
+
+/* 卡片 */
+.lan-sync-card {
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.lan-sync-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.lan-sync-card-title {
+  font-size: var(--font-ui-small);
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.lan-sync-badge {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 9px;
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+
+/* 空状态 / 扫描中 */
+.lan-sync-empty {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 2px;
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+}
+
+.lan-sync-empty-icon {
+  display: inline-flex;
+  color: var(--text-faint);
+}
+
+.lan-sync-empty-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.lan-sync-hint {
+  font-size: var(--font-ui-smaller);
+  color: var(--text-faint);
+  padding: 0 2px 2px;
+  line-height: 1.4;
+}
+
+/* 旋转加载动画 */
+.lan-sync-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--background-modifier-border);
+  border-top-color: var(--interactive-accent);
+  border-radius: 50%;
+  animation: lan-sync-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.lan-sync-spinner.sm {
+  width: 12px;
+  height: 12px;
+  border-width: 2px;
+  border-top-color: var(--text-on-accent);
+}
+
+@keyframes lan-sync-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 设备列表 */
+.lan-sync-peer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lan-sync-peer-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background-color 0.12s ease;
+}
+
+.lan-sync-peer-row:hover {
+  background: var(--background-modifier-hover);
+}
+
+.lan-sync-peer-row.offline {
+  opacity: 0.55;
+}
+
+/* 在线状态点 */
+.lan-sync-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.lan-sync-dot.online {
+  background: var(--color-green, #44c767);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-green, #44c767) 22%, transparent);
+}
+
+.lan-sync-dot.offline {
+  background: var(--text-faint);
+}
+
+.lan-sync-peer-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.lan-sync-peer-name {
+  font-size: var(--font-ui-small);
+  font-weight: 500;
+  color: var(--text-normal);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lan-sync-peer-addr {
+  font-size: var(--font-ui-smaller);
+  color: var(--text-faint);
+  font-family: var(--font-monospace);
+}
+
+/* 同步按钮 */
+.lan-sync-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  font-size: var(--font-ui-smaller);
+  font-weight: 500;
+  border-radius: 5px;
+  border: none;
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.12s ease, opacity 0.12s ease;
+}
+
+.lan-sync-btn:hover:not(:disabled) {
+  background: var(--interactive-accent-hover);
+}
+
+.lan-sync-btn:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.lan-sync-btn.is-syncing {
+  background: var(--interactive-accent);
+}
+
+.lan-sync-btn-icon {
+  display: inline-flex;
+}
+
+.lan-sync-btn-icon svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* 底部状态 */
+.lan-sync-footer {
+  padding: 2px 4px;
+}
+
+.lan-sync-time {
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+  margin-bottom: 5px;
+}
+
+.lan-sync-time.muted {
+  color: var(--text-faint);
+}
+
+.lan-sync-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.lan-sync-stat {
+  font-size: var(--font-ui-smaller);
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: var(--background-modifier-border);
+  color: var(--text-muted);
+}
+
+.lan-sync-stat.up { color: var(--color-blue, #4a8fe7); }
+.lan-sync-stat.down { color: var(--color-green, #44c767); }
+.lan-sync-stat.fail {
+  color: var(--text-on-accent);
+  background: var(--color-red, #e54848);
+}

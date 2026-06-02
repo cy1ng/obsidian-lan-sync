@@ -8,7 +8,7 @@ import type { PeerInfo, SyncSettings } from './types';
 
 export default class LanSyncPlugin extends Plugin {
   settings: SyncSettings;
-  private discovery: DiscoveryService | null = null;
+  discovery: DiscoveryService | null = null;
   private server: SyncServer | null = null;
   private syncEngine: SyncEngine | null = null;
 

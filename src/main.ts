@@ -22,6 +22,13 @@ export default class LanSyncPlugin extends Plugin {
     // 设置页
     this.addSettingTab(new LanSyncSettingTab(this.app, this));
 
+    // 命令:重新扫描局域网
+    this.addCommand({
+      id: 'rescan-lan',
+      name: '重新扫描局域网设备',
+      callback: () => this.rescan(),
+    });
+
     // 启动服务器和发现
     await this.startServices();
   }
@@ -89,6 +96,13 @@ export default class LanSyncPlugin extends Plugin {
       view?.setSyncStatus('error');
       new Notice(`同步失败：${e}`);
     }
+  }
+
+  /** 由 View 的刷新按钮 / 命令调用,重新扫描局域网 */
+  rescan() {
+    if (!this.discovery) return;
+    this.getView()?.beginScan();
+    this.discovery.rescan();
   }
 
   private async activateView() {

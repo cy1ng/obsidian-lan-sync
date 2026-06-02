@@ -32,31 +32,42 @@ export class LanSyncView extends ItemView {
     if (existing && existing.size > 0) {
       this.peers = existing;
       this.scanComplete = true;
+      this.render();
     } else {
-      // 启动扫描倒计时：到点仍无设备就从"扫描中"切换到"未发现设备"
-      this.scanComplete = false;
-      this.scanTimer = window.setTimeout(() => {
-        this.scanComplete = true;
-        this.render();
-      }, SCAN_TIMEOUT_MS);
+      this.beginScan();
     }
-    this.render();
   }
 
   async onClose() {
+    this.clearScanTimer();
+  }
+
+  private clearScanTimer() {
     if (this.scanTimer !== null) {
       window.clearTimeout(this.scanTimer);
       this.scanTimer = null;
     }
+  }
+
+  /** 进入"扫描中"状态并启动超时倒计时；到点仍无设备则显示"未发现设备" */
+  beginScan() {
+    this.clearScanTimer();
+    this.scanComplete = false;
+    this.scanTimer = window.setTimeout(() => {
+      this.scanComplete = true;
+      this.scanTimer = null;
+      this.render();
+    }, SCAN_TIMEOUT_MS);
+    this.render();
   }
 
   updatePeers(peers: Map<string, PeerInfo>) {
     this.peers = peers;
-    // 收到任何发现回调即视为扫描已出结果
-    this.scanComplete = true;
-    if (this.scanTimer !== null) {
-      window.clearTimeout(this.scanTimer);
-      this.scanTimer = null;
+    // 收到非空结果才视为扫描完成；空 map（如刚发起 rescan 时的清空）保持"扫描中"，
+    // 让超时倒计时决定何时切到"未发现设备"
+    if (peers.size > 0) {
+      this.scanComplete = true;
+      this.clearScanTimer();
     }
     this.render();
   }
@@ -89,6 +100,15 @@ export class LanSyncView extends ItemView {
     const titleIcon = header.createSpan({ cls: 'lan-sync-title-icon' });
     setIcon(titleIcon, 'wifi');
     header.createSpan({ text: '局域网同步', cls: 'lan-sync-title' });
+
+    const scanning = !this.scanComplete;
+    const refreshBtn = header.createEl('button', {
+      cls: `lan-sync-refresh${scanning ? ' is-scanning' : ''}`,
+      attr: { 'aria-label': '重新扫描局域网' },
+    });
+    setIcon(refreshBtn, 'refresh-cw');
+    refreshBtn.disabled = scanning;
+    refreshBtn.onclick = () => this.plugin.rescan();
 
     // ── 在线设备区 ─────────────────────────
     const section = root.createDiv({ cls: 'lan-sync-card' });

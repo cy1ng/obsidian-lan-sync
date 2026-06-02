@@ -32,6 +32,44 @@
   color: var(--text-normal);
 }
 
+/* 刷新按钮(靠右) */
+.lan-sync-refresh {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  box-shadow: none;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.lan-sync-refresh:hover:not(:disabled) {
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.lan-sync-refresh:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.lan-sync-refresh svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* 扫描中:刷新图标持续旋转 */
+.lan-sync-refresh.is-scanning svg {
+  animation: lan-sync-spin 0.8s linear infinite;
+}
+
 /* 卡片 */
 .lan-sync-card {
   background: var(--background-secondary);

@@ -62,6 +62,21 @@ export class DiscoveryService {
     this.bonjour.destroy();
   }
 
+  /**
+   * 重新扫描局域网:清空当前已知设备并重新发送 mDNS 查询。
+   * 在线设备会重新响应,通过 'up' 事件再次填充列表。
+   */
+  rescan() {
+    this.peers.clear();
+    this.onPeersChanged(new Map(this.peers));
+    if (this.browser) {
+      this.browser.update();
+    } else {
+      // 浏览器尚未启动(理论上不会发生),重新启动一次
+      this.start();
+    }
+  }
+
   getPeers(): Map<string, PeerInfo> {
     return new Map(this.peers);
   }
